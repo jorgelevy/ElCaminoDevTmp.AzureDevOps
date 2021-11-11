@@ -1,0 +1,46 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET core sdk'
+  inputs:
+   version: 3.1.x
+   performMultiLevelLookup: true
+
+- task: UseDotNet@2
+  displayName: 'Set .NET Core version to use'
+  inputs:
+    version: '3.1.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build projects'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Execute Unit Test'
+#   inputs:
+#     command: 'test'
+#     projects: '**/*.Test.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Create Publish Package'
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Package'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'WepApp'

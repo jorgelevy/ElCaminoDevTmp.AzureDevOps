@@ -37,9 +37,9 @@ steps:
   displayName: 'Create Publish Package'
   inputs:
     command: publish
-    publishWebProjects: True
+    publishWebProjects: false
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Package'

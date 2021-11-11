@@ -10,12 +10,14 @@ steps:
 - task: UseDotNet@2
   displayName: 'Install .NET core sdk'
   inputs:
-   version: 5.0.x
-   performMultiLevelLookup: true
+    packageType: 'sdk'
+    version: '5.0.x'
+    performMultiLevelLookup: true
 
 - task: UseDotNet@2
   displayName: 'Set .NET Core version to use'
   inputs:
+    packageType: 'sdk'
     version: '5.0.x'
 
 - task: DotNetCoreCLI@2
